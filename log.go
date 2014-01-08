@@ -38,7 +38,7 @@ var Tags = map[int]string{
 	ERROR:    "error",
 }
 
-type Fder interface {
+type fder interface {
 	Fd() uintptr
 }
 
@@ -128,7 +128,7 @@ func log(level int, args ...interface{}) {
 }
 
 func output(level int, v string) {
-	if file, ok := defaultOutput.(Fder); ok && terminal.IsTerminal(int(file.Fd())) {
+	if file, ok := defaultOutput.(fder); ok && terminal.IsTerminal(int(file.Fd())) {
 		v = ansi.Color(v, Colors[level])
 	}
 	Logger.Output(4, v)
