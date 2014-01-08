@@ -109,6 +109,16 @@ func Error(args ...interface{}) {
 	}
 }
 
+func Fatalf(format string, args ...interface{}) {
+	Errorf(format, args...)
+	os.Exit(1)
+}
+
+func Fatal(args ...interface{}) {
+	Error(args...)
+	os.Exit(1)
+}
+
 func levelOK(level int) bool {
 	if level == MUTE {
 		return false
