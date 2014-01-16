@@ -1,9 +1,8 @@
 package log
 
 import (
-	"code.google.com/p/go.crypto/ssh/terminal"
 	"fmt"
-	"github.com/mgutz/ansi"
+	"github.com/daviddengcn/go-colortext"
 	"io"
 	l "log"
 	"os"
@@ -22,12 +21,17 @@ const (
 var LogLevel = DEBUG
 var Logger = l.New(defaultOutput, "", l.LstdFlags|l.Lshortfile)
 
-var Colors = map[int]string{
-	DEBUG:    "",
-	INFO:     "green",
-	WARN:     "yellow",
-	CRITICAL: "red+b",
-	ERROR:    "red",
+type color struct {
+	value  ct.Color
+	bright bool
+}
+
+var Colors = map[int]color{
+	DEBUG:    {ct.White, false},
+	INFO:     {ct.Green, false},
+	WARN:     {ct.Yellow, false},
+	CRITICAL: {ct.Red, true},
+	ERROR:    {ct.Red, false},
 }
 
 var Tags = map[int]string{
@@ -138,8 +142,13 @@ func log(level int, args ...interface{}) {
 }
 
 func output(level int, v string) {
-	if file, ok := defaultOutput.(fder); ok && terminal.IsTerminal(int(file.Fd())) {
-		v = ansi.Color(v, Colors[level])
+	if file, ok := defaultOutput.(fder); ok && isatty(int(file.Fd())) {
+		c := Colors[level]
+		ct.ChangeColor(c.value, c.bright, ct.None, false)
+		Logger.Output(4, v)
+		ct.ResetColor()
+	} else {
+		Logger.Output(4, v)
 	}
-	Logger.Output(4, v)
+
 }
