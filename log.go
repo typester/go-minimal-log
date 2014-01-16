@@ -48,9 +48,17 @@ type fder interface {
 
 var defaultOutput io.Writer = os.Stderr
 
-func SetOutput(out io.Writer, prefix string, flag int) {
+func SetFlags(flags int) {
+	Logger.SetFlags(flags)
+}
+
+func SetPrefix(prefix string) {
+	Logger.SetPrefix(prefix)
+}
+
+func SetOutput(out io.Writer) {
 	defaultOutput = out
-	Logger = l.New(out, prefix, flag)
+	Logger = l.New(out, Logger.Prefix(), Logger.Flags())
 }
 
 func Debugf(format string, args ...interface{}) {
