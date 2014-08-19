@@ -8,73 +8,75 @@ import (
 
 func TestOutput(t *testing.T) {
 	buf := new(bytes.Buffer)
-	SetOutput(buf, "", l.Lshortfile)
+	SetFlags(l.Lshortfile)
+	SetOutput(buf)
 
 	Debug("foo", "bar")
-	if string(buf.Bytes()) != "log_test.go:13: [debug] foobar\n" {
+	if string(buf.Bytes()) != "log_test.go:14: [debug] foobar\n" {
+		print("aaa")
 		print(string(buf.Bytes()))
 		t.Fail()
 	}
 	buf.Reset()
 
 	Debugf("foo %s", "bar")
-	if string(buf.Bytes()) != "log_test.go:20: [debug] foo bar\n" {
+	if string(buf.Bytes()) != "log_test.go:22: [debug] foo bar\n" {
 		print(string(buf.Bytes()))
 		t.Fail()
 	}
 	buf.Reset()
 
 	Info("foo", "bar")
-	if string(buf.Bytes()) != "log_test.go:27: [info] foobar\n" {
+	if string(buf.Bytes()) != "log_test.go:29: [info] foobar\n" {
 		print(string(buf.Bytes()))
 		t.Fail()
 	}
 	buf.Reset()
 
 	Infof("foo %s", "bar")
-	if string(buf.Bytes()) != "log_test.go:34: [info] foo bar\n" {
+	if string(buf.Bytes()) != "log_test.go:36: [info] foo bar\n" {
 		print(string(buf.Bytes()))
 		t.Fail()
 	}
 	buf.Reset()
 
 	Warn("foo", "bar")
-	if string(buf.Bytes()) != "log_test.go:41: [warn] foobar\n" {
+	if string(buf.Bytes()) != "log_test.go:43: [warn] foobar\n" {
 		print(string(buf.Bytes()))
 		t.Fail()
 	}
 	buf.Reset()
 
 	Warnf("foo %s", "bar")
-	if string(buf.Bytes()) != "log_test.go:48: [warn] foo bar\n" {
+	if string(buf.Bytes()) != "log_test.go:50: [warn] foo bar\n" {
 		print(string(buf.Bytes()))
 		t.Fail()
 	}
 	buf.Reset()
 
 	Crit("foo", "bar")
-	if string(buf.Bytes()) != "log_test.go:55: [critical] foobar\n" {
+	if string(buf.Bytes()) != "log_test.go:57: [critical] foobar\n" {
 		print(string(buf.Bytes()))
 		t.Fail()
 	}
 	buf.Reset()
 
 	Critf("foo %s", "bar")
-	if string(buf.Bytes()) != "log_test.go:62: [critical] foo bar\n" {
+	if string(buf.Bytes()) != "log_test.go:64: [critical] foo bar\n" {
 		print(string(buf.Bytes()))
 		t.Fail()
 	}
 	buf.Reset()
 
 	Error("foo", "bar")
-	if string(buf.Bytes()) != "log_test.go:69: [error] foobar\n" {
+	if string(buf.Bytes()) != "log_test.go:71: [error] foobar\n" {
 		print(string(buf.Bytes()))
 		t.Fail()
 	}
 	buf.Reset()
 
 	Errorf("foo %s", "bar")
-	if string(buf.Bytes()) != "log_test.go:76: [error] foo bar\n" {
+	if string(buf.Bytes()) != "log_test.go:78: [error] foo bar\n" {
 		print(string(buf.Bytes()))
 		t.Fail()
 	}
@@ -83,10 +85,10 @@ func TestOutput(t *testing.T) {
 
 func TestLevel(t *testing.T) {
 	buf := new(bytes.Buffer)
-	SetOutput(buf, "", l.Lshortfile)
+	SetOutput(buf)
 
 	Debug("foo", "bar")
-	if string(buf.Bytes()) != "log_test.go:88: [debug] foobar\n" {
+	if string(buf.Bytes()) != "log_test.go:90: [debug] foobar\n" {
 		print(string(buf.Bytes()))
 		t.Fail()
 	}
