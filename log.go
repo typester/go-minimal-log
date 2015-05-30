@@ -2,10 +2,12 @@ package log
 
 import (
 	"fmt"
-	"github.com/daviddengcn/go-colortext"
 	"io"
 	l "log"
 	"os"
+
+	"github.com/daviddengcn/go-colortext"
+	"github.com/mattn/go-isatty"
 )
 
 const (
@@ -150,7 +152,7 @@ func log(level int, args ...interface{}) {
 }
 
 func output(level int, v string) {
-	if file, ok := defaultOutput.(fder); ok && isatty(int(file.Fd())) {
+	if file, ok := defaultOutput.(fder); ok && isatty.IsTerminal(uintptr(file.Fd())) {
 		c := Colors[level]
 		ct.ChangeColor(c.value, c.bright, ct.None, false)
 		Logger.Output(4, v)
